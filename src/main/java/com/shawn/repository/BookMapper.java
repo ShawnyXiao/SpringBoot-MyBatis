@@ -2,8 +2,6 @@ package com.shawn.repository;
 
 import com.shawn.model.Book;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * @author Xiaoyue Xiao
@@ -11,7 +9,16 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface BookMapper {
 
-    @Select("SELECT * FROM book WHERE id = #{id}")
-    Book findById(@Param("id") long id);
+    Book selectBookById(long bookId);
+
+//    List<Book> selectBooksByAuthor(@Param("author") String author);
+//
+//    List<Book> selectAllBooks();
+//
+//    void insertBook(Book book);
+//
+//    void updateBook(Book book);
+//
+//    void deleteBookById(@Param("id") long id);
 
 }

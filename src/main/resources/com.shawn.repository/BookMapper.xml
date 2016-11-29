@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shawn.repository.BookMapper">
+
+    <resultMap id="bookMap" type="Book">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="author" column="author"/>
+        <result property="price" column="price"/>
+        <result property="topic" column="topic"/>
+        <result property="publishDate" column="publish_date"/>
+    </resultMap>
+
+    <select id="selectBookById" resultMap="bookMap">
+        SELECT
+          *
+        FROM
+          book
+        WHERE
+          id = #{bookId}
+    </select>
+
+</mapper>
