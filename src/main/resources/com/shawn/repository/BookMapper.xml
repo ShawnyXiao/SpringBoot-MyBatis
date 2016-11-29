@@ -11,6 +11,29 @@
         <result property="publishDate" column="publish_date"/>
     </resultMap>
 
+    <insert id="insertBook" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+          book (name, author, price, topic, publish_date)
+        VALUES
+          (#{name}, #{author}, #{price}, #{topic}, #{publishDate})
+    </insert>
+
+    <update id="updateBookOnNameById">
+        UPDATE
+          book
+        SET
+          name = #{name}
+        WHERE
+          id = #{id}
+    </update>
+
+    <delete id="deleteBookById">
+        DELETE FROM
+          book
+        WHERE
+          id = #{id}
+    </delete>
+
     <select id="selectBookById" resultMap="bookMap">
         SELECT
           *
@@ -18,6 +41,31 @@
           book
         WHERE
           id = #{bookId}
+    </select>
+
+    <select id="selectBooksByAuthor" resultMap="bookMap">
+        SELECT
+          *
+        FROM
+          book
+        WHERE
+          author = #{author}
+    </select>
+
+    <select id="selectBooksByLowPriceAndHighPrice" resultMap="bookMap">
+        SELECT
+          *
+        FROM
+          book
+        WHERE
+          price BETWEEN #{lowPrice} AND #{highPrice}
+    </select>
+
+    <select id="selectAllBooks" resultMap="bookMap">
+        SELECT
+          *
+        FROM
+          book
     </select>
 
 </mapper>

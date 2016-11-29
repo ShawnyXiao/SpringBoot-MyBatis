@@ -1,7 +1,7 @@
 DROP TABLE book IF EXISTS;
 
 CREATE TABLE book (
-  id           BIGINT(20) IDENTITY PRIMARY KEY,
+  id           BIGINT IDENTITY PRIMARY KEY,
   name         VARCHAR(80),
   author       VARCHAR(80),
   price        DECIMAL(10,2),

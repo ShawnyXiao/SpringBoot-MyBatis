@@ -1,6 +1,5 @@
 package com.shawn;
 
-import com.shawn.model.Book;
 import com.shawn.repository.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +23,6 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        Book book = bookMapper.selectBookById(1L);
-        System.out.println(book);
+
     }
 }
