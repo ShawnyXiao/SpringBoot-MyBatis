@@ -61,6 +61,13 @@
             <artifactId>hsqldb</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Lombok - Make Java look less redundant -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
