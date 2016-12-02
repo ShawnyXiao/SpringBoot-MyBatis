@@ -1,6 +1,7 @@
 package com.shawn.repository;
 
 import com.shawn.model.Book;
+import com.shawn.model.BookWithBookStore;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface BookRepository {
 
-    Book selectBookById(long bookId);
+    Book selectBookById(long id);
 
     List<Book> selectBooksByAuthor(String author);
 
@@ -17,10 +18,12 @@ public interface BookRepository {
 
     List<Book> selectAllBooks();
 
+    BookWithBookStore selectBookWithBookStoreById(long id);
+
     int insertBook(Book book);
 
     int updateBookOnNameById(Book book);
 
-    int deleteBookById(long bookId);
+    int deleteBookById(long id);
 
 }

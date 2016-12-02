@@ -7,7 +7,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Xiaoyue Xiao
@@ -17,17 +16,12 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class Book implements Serializable {
+public class BookStore implements Serializable {
 
-    private static final long serialVersionUID = 8604990093149376515L;
+    private static final long serialVersionUID = 1183385713216587274L;
 
-    private Long id;
+    private long id;
     private String name;
-    private String author;
-    private Double price;
-    private String topic;
-    private Date publishDate;
-
-    private Long bookStoreId;
+    private String address;
 
 }

@@ -1,10 +1,18 @@
 DROP TABLE book IF EXISTS;
+DROP TABLE book_store IF EXISTS;
 
 CREATE TABLE book (
+  id            BIGINT IDENTITY PRIMARY KEY,
+  book_store_id BIGINT,
+  name          VARCHAR(80),
+  author        VARCHAR(80),
+  price         DECIMAL(10,2),
+  topic         VARCHAR(80),
+  publish_date  DATE
+);
+
+CREATE TABLE book_store (
   id           BIGINT IDENTITY PRIMARY KEY,
   name         VARCHAR(80),
-  author       VARCHAR(80),
-  price        DECIMAL(10,2),
-  topic        VARCHAR(80),
-  publish_date DATE
+  address      VARCHAR(80)
 );

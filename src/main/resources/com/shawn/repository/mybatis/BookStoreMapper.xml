@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shawn.repository.mybatis.BookStoreMapper">
+
+    <resultMap id="bookStore" type="BookStore">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <resultMap id="bookStoreWithBooks" type="bookStoreWithBooks">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <collection property="books" ofType="Book" resultMap="com.shawn.repository.mybatis.BookMapper.book" columnPrefix="book_"/>
+    </resultMap>
+
+    <select id="selectBookStoreById" resultMap="bookStore">
+        SELECT
+          *
+        FROM
+          book_store
+        WHERE
+          id = #{id}
+    </select>
+
+    <select id="selectAllBookStores" resultMap="bookStore">
+        SELECT
+          *
+        FROM
+          book_store
+    </select>
+
+    <select id="selectBookStoreWithBooksById" resultMap="bookStoreWithBooks">
+        SELECT
+          book_store.*,
+          book.id AS book_id,
+          book.name AS book_name,
+          book.author AS book_author,
+          book.price AS book_price,
+          book.topic AS book_topic,
+          book.publish_date as book_publish_date
+        FROM
+          book_store
+        LEFT JOIN
+          book ON book_store.id = book.book_store_id
+        WHERE
+          id = #{id}
+    </select>
+
+</mapper>

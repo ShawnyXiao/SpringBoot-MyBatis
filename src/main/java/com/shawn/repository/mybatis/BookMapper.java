@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper
 public interface BookMapper extends BookRepository {
 
+    @Override
     List<Book> selectBooksByLowPriceAndHighPrice(@Param("lowPrice") double lowPrice, @Param("highPrice") double highPrice);
 
 }

@@ -1,6 +1,7 @@
 package com.shawn.service.impl;
 
 import com.shawn.model.Book;
+import com.shawn.model.BookWithBookStore;
 import com.shawn.repository.BookRepository;
 import com.shawn.service.BookService;
 import lombok.extern.apachecommons.CommonsLog;
@@ -27,24 +28,48 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> getBookById(long bookId) {
-        return Optional.ofNullable(bookRepository.selectBookById(bookId));
+    public Optional<Book> getBookById(long id) {
+        Optional<Book> result = Optional.empty();
+        try {
+            result = Optional.ofNullable(bookRepository.selectBookById(id));
+        } catch (Exception e) {
+            log.error("[BookServiceImpl][getBookById()][id=" + id + "]: A problem occurred!", e);
+        }
+        return result;
     }
 
     @Override
     public List<Book> getBooksByAuthor(String author) {
-        return bookRepository.selectBooksByAuthor(author);
+        List<Book> result = new ArrayList<>();
+        try {
+            result = bookRepository.selectBooksByAuthor(author);
+        } catch (Exception e) {
+            log.error("[BookServiceImpl][getBooksByAuthor()][author=" + author + "]: A problem occurred!", e);
+        }
+        return result;
     }
 
     @Override
     public List<String> getAllBookNames() {
         List<String> result = new ArrayList<>();
         try {
-            result = bookRepository.selectAllBooks().stream()
+            result = bookRepository.selectAllBooks()
+                    .stream()
                     .map(Book::getName)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.error("[BookServiceImpl][getAllBookNames()][]: A problem occurred!", e);
+        }
+        return result;
+    }
+
+    @Override
+    public Optional<BookWithBookStore> getBookWithBookStoreById(long id) {
+        Optional<BookWithBookStore> result = Optional.empty();
+        try {
+            result = Optional.ofNullable(bookRepository.selectBookWithBookStoreById(id));
+        } catch (Exception e) {
+            log.error("[BookServiceImpl][getBookWithBookStoreById()][id=" + id + "]: A problem occurred!", e);
         }
         return result;
     }
