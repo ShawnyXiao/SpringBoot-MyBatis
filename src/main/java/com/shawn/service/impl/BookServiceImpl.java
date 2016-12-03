@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> getBookById(long id) {
+    public Optional<Book> getBookById(Long id) {
         Optional<Book> result = Optional.empty();
         try {
             result = Optional.ofNullable(bookRepository.selectBookById(id));
@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<BookWithBookStore> getBookWithBookStoreById(long id) {
+    public Optional<BookWithBookStore> getBookWithBookStoreById(Long id) {
         Optional<BookWithBookStore> result = Optional.empty();
         try {
             result = Optional.ofNullable(bookRepository.selectBookWithBookStoreById(id));

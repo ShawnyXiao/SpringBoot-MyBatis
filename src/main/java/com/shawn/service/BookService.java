@@ -11,13 +11,13 @@ import java.util.Optional;
  */
 public interface BookService {
 
-    Optional<Book> getBookById(long id);
+    Optional<Book> getBookById(Long id);
 
     List<Book> getBooksByAuthor(String author);
 
     List<String> getAllBookNames();
 
-    Optional<BookWithBookStore> getBookWithBookStoreById(long id);
+    Optional<BookWithBookStore> getBookWithBookStoreById(Long id);
 
     boolean saveBook(Book book);
 

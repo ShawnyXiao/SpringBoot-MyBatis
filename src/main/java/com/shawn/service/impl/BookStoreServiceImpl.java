@@ -28,7 +28,7 @@ public class BookStoreServiceImpl implements BookStoreService {
     }
 
     @Override
-    public Optional<BookStore> getBookStoreById(long id) {
+    public Optional<BookStore> getBookStoreById(Long id) {
         Optional<BookStore> result = Optional.empty();
         try {
             result = Optional.ofNullable(bookStoreRepository.selectBookStoreById(id));
@@ -53,7 +53,7 @@ public class BookStoreServiceImpl implements BookStoreService {
     }
 
     @Override
-    public Optional<BookStoreWithBooks> getBookStoreWithBooksById(long id) {
+    public Optional<BookStoreWithBooks> getBookStoreWithBooksById(Long id) {
         Optional<BookStoreWithBooks> result = Optional.empty();
         try {
             result = Optional.ofNullable(bookStoreRepository.selectBookStoreWithBooksById(id));

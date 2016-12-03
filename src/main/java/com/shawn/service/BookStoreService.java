@@ -11,10 +11,10 @@ import java.util.Optional;
  */
 public interface BookStoreService {
 
-    Optional<BookStore> getBookStoreById(long id);
+    Optional<BookStore> getBookStoreById(Long id);
 
     List<String> getAllBookStoreNames();
 
-    Optional<BookStoreWithBooks> getBookStoreWithBooksById(long id);
+    Optional<BookStoreWithBooks> getBookStoreWithBooksById(Long id);
 
 }

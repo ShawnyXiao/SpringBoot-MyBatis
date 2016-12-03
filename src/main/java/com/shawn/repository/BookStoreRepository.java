@@ -10,10 +10,10 @@ import java.util.List;
  */
 public interface BookStoreRepository {
 
-    BookStore selectBookStoreById(long id);
+    BookStore selectBookStoreById(Long id);
 
     List<BookStore> selectAllBookStores();
 
-    BookStoreWithBooks selectBookStoreWithBooksById(long id);
+    BookStoreWithBooks selectBookStoreWithBooksById(Long id);
 
 }

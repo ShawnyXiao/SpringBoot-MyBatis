@@ -14,6 +14,6 @@ import java.util.List;
 public interface BookMapper extends BookRepository {
 
     @Override
-    List<Book> selectBooksByLowPriceAndHighPrice(@Param("lowPrice") double lowPrice, @Param("highPrice") double highPrice);
+    List<Book> selectBooksByLowPriceAndHighPrice(@Param("lowPrice") Double lowPrice, @Param("highPrice") Double highPrice);
 
 }

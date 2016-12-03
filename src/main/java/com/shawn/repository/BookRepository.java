@@ -10,20 +10,20 @@ import java.util.List;
  */
 public interface BookRepository {
 
-    Book selectBookById(long id);
+    Book selectBookById(Long id);
 
     List<Book> selectBooksByAuthor(String author);
 
-    List<Book> selectBooksByLowPriceAndHighPrice(double lowPrice, double highPrice);
+    List<Book> selectBooksByLowPriceAndHighPrice(Double lowPrice, Double highPrice);
 
     List<Book> selectAllBooks();
 
-    BookWithBookStore selectBookWithBookStoreById(long id);
+    BookWithBookStore selectBookWithBookStoreById(Long id);
 
     int insertBook(Book book);
 
     int updateBookOnNameById(Book book);
 
-    int deleteBookById(long id);
+    int deleteBookById(Long id);
 
 }
