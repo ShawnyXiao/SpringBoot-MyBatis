@@ -28,6 +28,7 @@
         <!-- Other properties -->
         <mybatis-spring-boot-starter.version>1.1.1</mybatis-spring-boot-starter.version>
         <mysql-connector-java.version>5.1.40</mysql-connector-java.version>
+        <commons-lang3.version>3.4</commons-lang3.version>
     </properties>
 
     <dependencies>
@@ -67,6 +68,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Apache Commons Lang -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
     </dependencies>
 

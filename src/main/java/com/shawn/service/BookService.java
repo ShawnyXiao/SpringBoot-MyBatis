@@ -15,6 +15,8 @@ public interface BookService {
 
     List<Book> getBooksByAuthor(String author);
 
+    List<Book> getAllBooks();
+
     List<String> getAllBookNames();
 
     Optional<BookWithBookStore> getBookWithBookStoreById(Long id);
@@ -22,4 +24,5 @@ public interface BookService {
     boolean saveBook(Book book);
 
     boolean updateBookOnNameById(Book book);
+
 }
