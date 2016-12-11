@@ -1,11 +1,11 @@
 # SpringBoot-MyBatis
 
-It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis. Containg a basic configuration and a implementation of "book management", it could be modified to satify all your requirements. It is simple enough to understand how each module works.
+最近由于实训，发现很多同学都在开发Java后台，因此少不了重复繁杂的配置工作，这个框架就是为了减少这些不必要的工作。它集成了Spring Boot和MyBatis，并实现了一个类似“书籍管理”的模块（支持RESTful API）以供参考，框架简单易懂。完全可以根据自己的需要，修改这个框架，以实现自己想实现的功能。
 
 - [中文文档](README-zh.md)
 - [English documents](README.md)
 
-## Technics
+## 技术
 
 - Spring Boot
 - MyBatis
@@ -15,7 +15,7 @@ It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis.
 - Lombok
 - Apache Commons Lang
 
-## Reference
+## 引用
 
 - [Understanding Spring Web Application Architecture: The Classic Way](https://www.petrikainulainen.net/software-development/design/understanding-spring-web-application-architecture-the-classic-way/)
 - [MyBatis](http://www.mybatis.org/mybatis-3/zh/index.html)

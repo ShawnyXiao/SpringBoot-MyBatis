@@ -1,7 +1,7 @@
 package com.shawn.web.controller;
 
-import com.shawn.constant.Page;
-import com.shawn.constant.ResourceName;
+import com.shawn.constant.PageConstant;
+import com.shawn.constant.ResourceNameConstant;
 import com.shawn.model.dto.PaginatedResult;
 import com.shawn.model.dto.Result;
 import com.shawn.model.entity.Book;
@@ -34,8 +34,8 @@ public class BookController {
     public ResponseEntity<?> getBooks(@RequestParam(value = "page", required = false) String pageString,
                                       @RequestParam(value = "perPage", required = false) String perPageString) {
         // Parse request parameters
-        int page = PageUtil.parsePage(pageString, Page.PAGE);
-        int perPage = PageUtil.parsePerPage(perPageString, Page.PER_PAGE);
+        int page = PageUtil.parsePage(pageString, PageConstant.PAGE);
+        int perPage = PageUtil.parsePerPage(perPageString, PageConstant.PER_PAGE);
 
         return ResponseEntity
                 .ok(new PaginatedResult()
@@ -54,7 +54,7 @@ public class BookController {
                                 .setStatus(HttpStatus.OK.value())
                                 .setData(book)))
                 .orElseThrow(() -> new ResourceNotFoundException()
-                        .setResourceName(ResourceName.BOOK)
+                        .setResourceName(ResourceNameConstant.BOOK)
                         .setId(bookId));
     }
 
@@ -132,7 +132,7 @@ public class BookController {
         bookService
                 .getBookById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException()
-                        .setResourceName(ResourceName.BOOK)
+                        .setResourceName(ResourceNameConstant.BOOK)
                         .setId(bookId));
     }
 
