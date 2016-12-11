@@ -1,12 +1,10 @@
-package com.shawn.model;
+package com.shawn.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * @author Xiaoyue Xiao
@@ -16,10 +14,10 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class BookStoreWithBooks extends BookStore {
+public class BookWithBookStore extends Book {
 
-    private static final long serialVersionUID = -740463675258248874L;
+    private static final long serialVersionUID = -4858710159989616286L;
 
-    private List<Book> books;
+    private BookStore bookStore;
 
 }

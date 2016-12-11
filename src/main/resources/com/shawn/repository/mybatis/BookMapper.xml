@@ -80,6 +80,14 @@
           book
     </select>
 
+    <select id="selectBooksByPage" resultMap="book">
+        SELECT
+          *
+        FROM
+          book
+        LIMIT #{offset}, #{perPage}
+    </select>
+
     <select id="selectBookWithBookStoreById" resultMap="bookWithBookStore">
         SELECT
           book.*,
@@ -92,6 +100,13 @@
           book_store ON book.book_store_id = book_store.id
         WHERE
           id = #{id}
+    </select>
+
+    <select id="selectCount" resultType="integer">
+        SELECT
+            COUNT(*)
+        FROM
+          book
     </select>
 
 </mapper>

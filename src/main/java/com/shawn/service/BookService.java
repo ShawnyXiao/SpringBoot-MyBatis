@@ -1,7 +1,7 @@
 package com.shawn.service;
 
-import com.shawn.model.Book;
-import com.shawn.model.BookWithBookStore;
+import com.shawn.model.entity.Book;
+import com.shawn.model.entity.BookWithBookStore;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,14 +15,18 @@ public interface BookService {
 
     List<Book> getBooksByAuthor(String author);
 
-    List<Book> getAllBooks();
+    List<Book> getBooksByPage(Integer page, Integer perPage);
 
     List<String> getAllBookNames();
 
     Optional<BookWithBookStore> getBookWithBookStoreById(Long id);
 
+    Integer getTotalPage(Integer perPage);
+
     boolean saveBook(Book book);
 
-    boolean updateBookOnNameById(Book book);
+    boolean modifyBookOnNameById(Book book);
+
+    boolean deleteBookById(Long id);
 
 }

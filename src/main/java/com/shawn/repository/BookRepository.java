@@ -1,7 +1,7 @@
 package com.shawn.repository;
 
-import com.shawn.model.Book;
-import com.shawn.model.BookWithBookStore;
+import com.shawn.model.entity.Book;
+import com.shawn.model.entity.BookWithBookStore;
 
 import java.util.List;
 
@@ -18,12 +18,16 @@ public interface BookRepository {
 
     List<Book> selectAllBooks();
 
+    List<Book> selectBooksByPage(Integer offset, Integer perPage);
+
     BookWithBookStore selectBookWithBookStoreById(Long id);
 
-    int insertBook(Book book);
+    Integer selectCount();
 
-    int updateBookOnNameById(Book book);
+    Integer insertBook(Book book);
 
-    int deleteBookById(Long id);
+    Integer updateBookOnNameById(Book book);
+
+    Integer deleteBookById(Long id);
 
 }

@@ -1,7 +1,7 @@
 package com.shawn.service.impl;
 
-import com.shawn.model.BookStore;
-import com.shawn.model.BookStoreWithBooks;
+import com.shawn.model.entity.BookStore;
+import com.shawn.model.entity.BookStoreWithBooks;
 import com.shawn.repository.BookStoreRepository;
 import com.shawn.service.BookStoreService;
 import com.shawn.web.exception.ServiceException;

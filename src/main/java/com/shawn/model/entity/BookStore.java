@@ -1,4 +1,4 @@
-package com.shawn.model;
+package com.shawn.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

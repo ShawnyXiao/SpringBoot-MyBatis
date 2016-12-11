@@ -1,8 +1,13 @@
 package com.shawn.web.controller;
 
-import com.shawn.model.Book;
+import com.shawn.constant.Page;
+import com.shawn.constant.ResourceName;
+import com.shawn.model.dto.PaginatedResult;
+import com.shawn.model.dto.Result;
+import com.shawn.model.entity.Book;
 import com.shawn.service.BookService;
-import com.shawn.web.exception.ObjectNotFoundException;
+import com.shawn.util.PageUtil;
+import com.shawn.web.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 /**
  * @author Xiaoyue Xiao
@@ -27,15 +31,31 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public ResponseEntity<?> getBooks(@RequestParam(value = "page", required = false) String pageString,
+                                      @RequestParam(value = "perPage", required = false) String perPageString) {
+        // Parse request parameters
+        int page = PageUtil.parsePage(pageString, Page.PAGE);
+        int perPage = PageUtil.parsePerPage(perPageString, Page.PER_PAGE);
+
+        return ResponseEntity
+                .ok(new PaginatedResult()
+                        .setStatus(HttpStatus.OK.value())
+                        .setData(bookService.getBooksByPage(page, perPage))
+                        .setCurrentPage(page)
+                        .setTotalPage(bookService.getTotalPage(perPage)));
     }
 
     @GetMapping("/{bookId}")
-    public Book getBookById(@PathVariable Long bookId) {
+    public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
         return bookService
                 .getBookById(bookId)
-                .orElseThrow(() -> new ObjectNotFoundException("Book", bookId));
+                .map(book -> ResponseEntity
+                        .ok(new Result()
+                                .setStatus(HttpStatus.OK.value())
+                                .setData(book)))
+                .orElseThrow(() -> new ResourceNotFoundException()
+                        .setResourceName(ResourceName.BOOK)
+                        .setId(bookId));
     }
 
     @PostMapping
@@ -45,26 +65,75 @@ public class BookController {
         if (!result) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
+                    .body(new Result()
+                            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                            .setMessage("Creating book is failed."));
+        } else {
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(book.getId())
+                    .toUri();
+            return ResponseEntity
+                    .created(location)
+                    .body(new Result()
+                            .setStatus(HttpStatus.CREATED.value())
+                            .setMessage("The book is created.")
+                            .setData(book));
         }
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(book.getId())
-                .toUri();
-        return ResponseEntity
-                .created(location)
-                .build();
     }
 
     @PutMapping("/{bookId}")
-    public ResponseEntity<?> putBook(@PathVariable String bookId, @RequestBody Book book) {
-        return null;
+    public ResponseEntity<?> putBook(@PathVariable Long bookId, @RequestBody Book book) {
+        assertBookExist(bookId);
+
+        book.setId(bookId);
+        boolean result = bookService.modifyBookOnNameById(book);
+
+        if (!result) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Result()
+                            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                            .setMessage("Modifying book with id " + bookId + " is failed."));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new Result()
+                            .setStatus(HttpStatus.OK.value())
+                            .setMessage("The book with id " + bookId + " is modified."));
+        }
     }
 
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<?> deleteBook(@PathVariable String bookId) {
-        return null;
+    public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
+        assertBookExist(bookId);
+
+        boolean result = bookService.deleteBookById(bookId);
+
+        if (!result) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Result()
+                            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                            .setMessage("Deleting book with id " + bookId + " is failed.")
+                    );
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new Result()
+                            .setStatus(HttpStatus.OK.value())
+                            .setMessage("The book with id " + bookId + " is deleted."));
+        }
     }
+
+    /********************************** HELPER METHOD **********************************/
+    private void assertBookExist(Long bookId) {
+        bookService
+                .getBookById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException()
+                        .setResourceName(ResourceName.BOOK)
+                        .setId(bookId));
+    }
+
 }

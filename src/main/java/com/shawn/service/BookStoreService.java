@@ -1,7 +1,7 @@
 package com.shawn.service;
 
-import com.shawn.model.BookStore;
-import com.shawn.model.BookStoreWithBooks;
+import com.shawn.model.entity.BookStore;
+import com.shawn.model.entity.BookStoreWithBooks;
 
 import java.util.List;
 import java.util.Optional;
