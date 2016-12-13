@@ -1,6 +1,6 @@
 # SpringBoot-MyBatis
 
-It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis. Containg a basic configuration and a implementation of "book management", it could be modified to satify all your requirements. It is simple enough to understand how each module works.
+It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis. Containing a basic configuration and a implementation of "book management" module, it could be modified to satify all your requirements. It is simple enough to understand how each module works.
 
 - [中文文档](README-zh.md)
 - [English documents](README.md)
@@ -57,3 +57,6 @@ It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis.
 - [POST /eff/you/this/is/the/right/url - RESTful API Design](http://blog.cloud-elements.com/post-effyouthisistherighturl-restful-api-design)
 - [418: I'm a teapot, and other bad API responses - RESTful API Design](http://blog.cloud-elements.com/418-im-a-teapot-and-other-bad-api-responses-restful-api-design)
 - [Error Handling: RESTful API Design Part III](http://blog.cloud-elements.com/error-handling-restful-api-design-part-iii)
+- [11.&nbsp;Aspect Oriented Programming with Spring](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/aop.html)
+- [Chapter&nbsp;6.&nbsp;&#20351;&#29992;Spring&#36827;&#34892;&#38754;&#21521;&#20999;&#38754;&#32534;&#31243;&#65288;AOP&#65289;](http://shouce.jb51.net/spring/aop.html)
+- [AOP with Spring Framework](https://www.tutorialspoint.com/spring/aop_with_spring.htm)

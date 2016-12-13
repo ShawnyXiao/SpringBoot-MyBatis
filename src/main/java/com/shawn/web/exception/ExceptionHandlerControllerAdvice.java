@@ -39,8 +39,8 @@ class ExceptionHandlerControllerAdvice {
 
     /********************************** HELPER METHOD **********************************/
     private void logError(HttpServletRequest request, Exception e) {
-        log.error("\nURI     :   " + request.getRequestURI()
-                + "\nerror   :   " + e.getMessage());
+        log.error("[URI: " + request.getRequestURI() + "]"
+                + "[error: " + e.getMessage() + "]");
     }
 
 }
