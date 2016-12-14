@@ -87,8 +87,7 @@ public class BookController {
     public ResponseEntity<?> putBook(@PathVariable Long bookId, @RequestBody Book book) {
         assertBookExist(bookId);
 
-        book.setId(bookId);
-        boolean result = bookService.modifyBookOnNameById(book);
+        boolean result = bookService.modifyBookOnNameById(book.setId(bookId));
 
         if (!result) {
             return ResponseEntity
