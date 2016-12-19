@@ -2,8 +2,8 @@
 
 最近由于实训，发现很多同学都在开发Java后台，因此少不了重复繁杂的配置工作，这个框架就是为了减少这些不必要的工作。它集成了**Spring Boot**和**MyBatis**，并实现了一个类似“书籍管理”的模块（支持**RESTful API**）以供参考，框架简单易懂。完全可以根据自己的需要，修改这个框架，以实现自己想实现的功能。
 
-- [中文文档](README-zh.md)
-- [English documents](README.md)
+- [中文文档](README.md)
+- [English documents](README-en.md)
 
 ## 技术
 
