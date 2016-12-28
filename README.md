@@ -90,7 +90,7 @@
 
 ### Lombok
 
-一直以来，都觉得 POJO 类里面的 get、set 方法使得代码显得非常臃肿，不像 C# 里从语言层面支持了 get 访问器和 set 访问器。那么在 Java 中有没有类似可以消除这样冗余代码的技巧呢？答案就是 [Lombok](https://projectlombok.org/)。Lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 Java 代码。举个例子：
+一直以来，都觉得 POJO 类里面的 get、set 方法使得代码显得非常臃肿，不像 C# 里从语言层面支持了 get 访问器和 set 访问器。那么在 Java 中有没有类似可以消除这样冗余代码的技巧呢？答案就是 **Lombok**。Lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 Java 代码。举个例子：
 
 不使用 Lombok：
 ```
@@ -154,12 +154,14 @@ public class BookStore {
 ```
 
 在本项目中使用的 Lombok 注解有：
-- [@Accessors](https://projectlombok.org/features/experimental/Accessors.html)
-- [@NoArgsConstructor](https://projectlombok.org/features/Constructor.html)
-- [@Getter](https://projectlombok.org/features/GetterSetter.html)
-- [@Setter](https://projectlombok.org/features/GetterSetter.html)
-- [@ToString](https://projectlombok.org/features/ToString.html)
-- [@CommonsLog](https://projectlombok.org/features/Log.html)
+- @Accessors
+- @NoArgsConstructor
+- @Getter
+- @Setter
+- @ToString
+- @CommonsLog
+
+### 未完待续……
 
 ## 引用
 
