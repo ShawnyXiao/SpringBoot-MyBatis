@@ -154,12 +154,57 @@ public class BookStore {
 ```
 
 在本项目中使用的 Lombok 注解有：
+
 - @Accessors
 - @NoArgsConstructor
 - @Getter
 - @Setter
 - @ToString
 - @CommonsLog
+
+### 日志记录
+
+曾经，我一直使用控制台输出（也就是 System.out.println）来让我的程序告诉我它在编译期和运行期做了些什么。这样的却是简单，但是往往伴随着显著的劣势。举两个例子：
+
+- 在开发环境中，我想看到调试的信息，但在生产环境中，我并不想看到任何调试信息
+- 我想将所有信息输出到一个文件，以便我有空了就打开这个文件，看下哪里出错了
+
+上面的两个例子足以显示使用控制台输出是无法满足我们的需求的，那么怎样做才是最佳实践呢？答案就是**使用日志框架**。日志框架为我们提供了日志开关、日志级别配置、日志格式配置等等，带来了适度的灵活性和封装性。引用前面说过的一句话：只需要“掌控”他们，再“利用”他们，你就能实现你想要的。
+
+本项目使用了 Spring Boot 默认提供的 **Commons Logging**。对于一切想要记录日志的类，只需要在它的头上使用 Lombok 提供的注解 @CommonsLog，便能使用日志记录功能了。举个例子：
+
+```
+@CommonsLog
+public class XxxClass {
+    public void XxxMethod() {
+        log.info("I just want to log something.");
+    }
+}
+```
+
+本项目对日志记录的有效配置全部位于 src/main/resources/application.properties 下，包括日志级别的配置、输出到日志文件的配置等等，如下：
+
+```
+...
+
+### Logging ###
+# Log levels (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
+logging.level.root=INFO
+logging.level.org.springframework=INFO
+logging.level.org.springframework.web=INFO
+logging.level.org.mybatis=INFO
+logging.level.com.shawn=DEBUG
+# File output
+project.name=SpringBoot-Mybatis
+logging.file=/${project.name}/logs/SpringBoot-Mybatis.log
+
+...
+```
+
+记录日志只是有效地利用日志的第一步，更重要的是如何对程序运行时产生的日志进行**处理和分析**。这样的处理和分析的能力对于实际系统的维护尤其重要。典型的场景包括：
+
+- 当日志中包含满足特定条件的记录时，触发相应的通知机制，比如邮件或短信通知
+- 在程序运行出现错误时，快速定位潜在的问题源
 
 ### 未完待续……
 
@@ -209,3 +254,4 @@ public class BookStore {
 - [Chapter&nbsp;6.&nbsp;&#20351;&#29992;Spring&#36827;&#34892;&#38754;&#21521;&#20999;&#38754;&#32534;&#31243;&#65288;AOP&#65289;](http://shouce.jb51.net/spring/aop.html)
 - [AOP with Spring Framework](https://www.tutorialspoint.com/spring/aop_with_spring.htm)
 - [StopWatch (Apache Commons Lang 3.4 API)](https://commons.apache.org/proper/commons-lang/javadocs/api-3.4/org/apache/commons/lang3/time/StopWatch.html)
+- [Java 日志管理最佳实践](http://www.ibm.com/developerworks/cn/java/j-lo-practicelog/)
