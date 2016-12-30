@@ -10,6 +10,7 @@ It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis.
 - Spring Boot
 - MyBatis
 - MySQL or HSQLDB (a in-memory database)
+- Maven
 - Commons Logging
 - Java 8 Lambda Expressions
 - Lombok
