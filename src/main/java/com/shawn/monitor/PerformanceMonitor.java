@@ -42,7 +42,7 @@ public class PerformanceMonitor {
         stopWatch.stop();
 
         // Log the elapsed time
-        double elapsedTime = stopWatch.getTime() / 1000;
+        double elapsedTime = stopWatch.getTime() / 1000.0;
         Signature signature = proceedingJoinPoint.getSignature();
         String infoString = "[" + signature.toShortString() + "][Elapsed time: " + elapsedTime + " s]";
         if (elapsedTime > 1) {
