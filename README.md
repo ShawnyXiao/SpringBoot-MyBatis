@@ -93,7 +93,8 @@
 一直以来，都觉得 POJO 类里面的 get、set 方法使得代码显得非常臃肿，不像 C# 里从语言层面支持了 get 访问器和 set 访问器。那么在 Java 中有没有类似可以消除这样冗余代码的技巧呢？答案就是 **Lombok**。Lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 Java 代码。举个例子：
 
 不使用 Lombok：
-```
+
+```Java
 public class BookStore {
 
     private long id;
@@ -134,7 +135,8 @@ public class BookStore {
 ```
 
 使用 Lombok：
-```
+
+```Java
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -173,7 +175,7 @@ public class BookStore {
 
 本项目使用了 Spring Boot 默认提供的 **Commons Logging**。对于一切想要记录日志的类，只需要在它的头上使用 Lombok 提供的注解 @CommonsLog，便能使用日志记录功能了。举个例子：
 
-```
+```Java
 @CommonsLog
 public class XxxClass {
     public void XxxMethod() {
@@ -205,6 +207,97 @@ logging.file=/${project.name}/logs/SpringBoot-Mybatis.log
 
 - 当日志中包含满足特定条件的记录时，触发相应的通知机制，比如邮件或短信通知
 - 在程序运行出现错误时，快速定位潜在的问题源
+
+### 性能监控
+
+大概5个月之前，我参与的一个项目中存在了一个严重的性能问题，但是在开发和测试过程中并没有人发现这个问题，而是系统上线后，客户发现并提出，导致这个性能问题造成了严重的后果。因此，非常有必要对开发、测试以及上线的系统进行**性能监控**，及时做出补救措施，以造成不必要的后果。
+
+那么，我们到底应该监控什么呢，或者说性能到底是什么呢？对于 Web 应用来说，性能就是 Web 系统采取某个动作（动作也就是 Web 系统对每个请求所执行的操作的集合）所消耗的时间。了解到我们应该监控 Web 系统的每个动作，那么更进一步，怎么才能监控每个动作呢？本项目采用的是 **Spring AOP** 技术。三个步骤如下：
+
+- 使用 @Aspect 注解声明一个切面（Aspect）。如下：
+
+```Java
+@Aspect
+public class XxxAspect {
+}
+```
+
+- 声明一个切入点（Pointcut），切入点声明包含两个部分：一个包含名字和任意参数的签名；一个切入点表达式，该表达式决定了我们关注哪个方法的执行。如下：
+
+```Java
+@Pointcut("execution(* xxxMethod(..))") // 切入点表达式
+private void monitorXxxMethod() {} // 切入点签名
+```
+
+- 声明通知（Advice）。举一个声明环绕通知的例子：
+
+```Java
+@Around（"monitorXxxMethod"） // 使用了第二点中申明的切入点
+public Object doSomething（ProceedingJoinPoint pjp） throws Throwable {
+    // 在方法执行前，做某些操作
+    Object retVal = pjp.proceed（）;
+    // 在方法执行后，做某些操作
+    return retVal;
+}
+```
+
+根据上述三个步骤，在本项目中，性能监测代码是这样的：
+
+```Java
+@CommonsLog
+@Aspect
+@Component
+public class PerformanceMonitor {
+
+    /**
+     * A join point is in the controller layer if the method is
+     * modified by public and defined in a type in the
+     * com.shawn.service package or any sub-package under that
+     * and modified by public.
+     */
+    @Pointcut("execution(public * com.shawn.web.controller..*(..))")
+    private void controllerLayer() {
+    }
+
+    /**
+     * Monitor the elapsed time of method on controller layer, in
+     * order to detect performance problems as soon as possible.
+     * If elapsed time > 1 s, log it as an error. Otherwise, log it
+     * as an info.
+     */
+    @Around("controllerLayer()")
+    public Object monitorElapsedTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        // Timing the method in controller layer
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        Object result = proceedingJoinPoint.proceed();
+        stopWatch.stop();
+
+        // Log the elapsed time
+        double elapsedTime = stopWatch.getTime() / 1000;
+        Signature signature = proceedingJoinPoint.getSignature();
+        String infoString = "[" + signature.toShortString() + "][Elapsed time: " + elapsedTime + " s]";
+        if (elapsedTime > 1) {
+            log.error(infoString + "[Note that it's time consuming!]");
+        } else {
+            log.info(infoString);
+        }
+
+        // Return the result
+        return result;
+    }
+
+}
+```
+
+因此，系统每执行一个动作（也就是，每响应一个请求所执行的操作），在日志上都会记录下它所消耗的时间，若超过1秒，则会以 error 级别记录日志。如下：
+
+```
+2017-01-03 22:58:19.431 ERROR 6384 --- [nio-8080-exec-9] com.shawn.monitor.PerformanceMonitor     : [BookController.postBook(..)][Elapsed time: 1.457 s][Note that it's time consuming!]
+2017-01-03 22:58:47.875  INFO 6384 --- [io-8080-exec-10] com.shawn.monitor.PerformanceMonitor     : [BookController.getBooks(..)][Elapsed time: 0.656 s]
+2017-01-03 22:59:16.356  INFO 6384 --- [nio-8080-exec-1] com.shawn.monitor.PerformanceMonitor     : [BookController.putBook(..)][Elapsed time: 0.618 s]
+2017-01-03 22:59:51.259  INFO 6384 --- [nio-8080-exec-3] com.shawn.monitor.PerformanceMonitor     : [BookController.deleteBook(..)][Elapsed time: 0.016 s]
+```
 
 ### 未完待续……
 
