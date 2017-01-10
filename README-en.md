@@ -16,7 +16,7 @@ It is a back-end RESTful framework, which integrated by Spring Boot and MyBatis.
 - Lombok
 - Apache Commons Lang
 
-## Reference
+## References
 
 - [Understanding Spring Web Application Architecture: The Classic Way](https://www.petrikainulainen.net/software-development/design/understanding-spring-web-application-architecture-the-classic-way/)
 - [MyBatis](http://www.mybatis.org/mybatis-3/zh/index.html)
