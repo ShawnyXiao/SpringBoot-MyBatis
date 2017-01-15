@@ -7,15 +7,57 @@
 
 ## 向导
 
-1. [技术](#技术)
-2. [细节](#细节)
+1. [启动](#启动)
+2. [技术](#技术)
+3. [细节](#细节)
     1. [文件目录](#文件目录)
     2. [架构](#架构)
     3. [Lombok](#lombok)
     4. [日志记录](#日志记录)
     5. [性能监控](#性能监控)
     6. [未完待续……](#未完待续……)
-3. [引用](#引用)
+4. [引用](#引用)
+
+## 启动
+
+> 注意：你需要确保你的系统上已安装了 Git 和 Maven（也就是在命令行窗口中键入 git 或 mvn 后，能有非错误性的提示），否则接下来的步骤将无法进行。
+
+首先，你应该要将这个代码库克隆到你的磁盘上，并进入此目录。启动命令行窗口，键入：
+
+```
+git clone https://github.com/ShawnyXiao/SpringBoot-MyBatis.git
+cd SpringBoot-MyBatis
+```
+
+然后，启动应用（初次启动的话，这个过程会需要稍微久一点的时间）。在命令行窗口中键入：
+
+```
+mvn spring-boot:run
+```
+
+此时，你可以尝试发出一个 HTTP 请求。例如，利用浏览器向你的 Web 应用发出一个 HTTP GET 请求，在地址栏键入：
+
+```
+http://localhost:8080/books/1
+```
+
+你将会看到，你的 Web 应用通过 JSON 字符串来做出响应：
+
+```json
+{
+  "status": 200,
+  "message": null,
+  "data": {
+    "id": 1,
+    "name": "社会研究方法教程",
+    "author": "袁方",
+    "price": 68,
+    "topic": "社会学",
+    "publishDate": 1425139200000,
+    "bookStoreId": 1
+  }
+}
+```
 
 ## 技术
 
@@ -106,7 +148,7 @@
 
 不使用 Lombok：
 
-```Java
+```java
 public class BookStore {
 
     private long id;
@@ -148,7 +190,7 @@ public class BookStore {
 
 使用 Lombok：
 
-```Java
+```java
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -187,7 +229,7 @@ public class BookStore {
 
 本项目使用了 Spring Boot 默认提供的 **Commons Logging**。对于一切想要记录日志的类，只需要在它的头上使用 Lombok 提供的注解 @CommonsLog，便能使用日志记录功能了。举个例子：
 
-```Java
+```java
 @CommonsLog
 public class XxxClass {
     public void XxxMethod() {
@@ -228,7 +270,7 @@ logging.file=/${project.name}/logs/SpringBoot-Mybatis.log
 
 - 使用 @Aspect 注解声明一个切面（Aspect）。如下：
 
-```Java
+```java
 @Aspect
 public class XxxAspect {
 }
@@ -236,14 +278,14 @@ public class XxxAspect {
 
 - 在切面中声明一个切入点（Pointcut），切入点声明包含两个部分：一个包含名字和任意参数的签名；一个切入点表达式，该表达式决定了我们关注哪个方法的执行。如下：
 
-```Java
+```java
 @Pointcut("execution(* xxxMethod(..))") // 切入点表达式
 private void monitorXxxMethod() {} // 切入点签名
 ```
 
 - 在切面中声明通知（Advice）。举一个声明环绕通知的例子：
 
-```Java
+```java
 @Around（"monitorXxxMethod"） // 使用了第二点中申明的切入点
 public Object doSomething（ProceedingJoinPoint pjp） throws Throwable {
     // 在方法执行前，做某些操作
@@ -255,7 +297,7 @@ public Object doSomething（ProceedingJoinPoint pjp） throws Throwable {
 
 根据上述三个步骤，在本项目中，性能监测代码是这样的：
 
-```Java
+```java
 @CommonsLog
 @Aspect
 @Component
