@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @author Xiaoyue Xiao
  */
@@ -14,28 +16,12 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
-public class PaginatedResult extends Result {
+public class PaginatedResult implements Serializable {
 
     private static final long serialVersionUID = 6191745064790884707L;
 
     private int currentPage; // Current page number
     private int totalPage; // Number of total pages
+    private Object data; // Paginated resources
 
-    @Override
-    public PaginatedResult setStatus(int status) {
-        super.setStatus(status);
-        return this;
-    }
-
-    @Override
-    public PaginatedResult setMessage(String message) {
-        super.setMessage(message);
-        return this;
-    }
-
-    @Override
-    public PaginatedResult setData(Object data) {
-        super.setData(data);
-        return this;
-    }
 }

@@ -1,6 +1,6 @@
 package com.shawn.monitor;
 
-import com.shawn.web.exception.ServiceException;
+import com.shawn.web.exception.ServerInternalErrorException;
 import lombok.extern.apachecommons.CommonsLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -31,8 +31,8 @@ public class ServiceMonitor {
     /**
      * Monitor whether exception is thrown in service layer. If exception
      * has been thrown, in order to detecting it conveniently, log the
-     * situation where it happened. Then create a service exception and
-     * throw it out.
+     * situation where it happened. Then create a server internal error
+     * exception and throw it out.
      */
     @AfterThrowing(pointcut = "com.shawn.monitor.ServiceMonitor.serviceLayer()", throwing = "e")
     public void monitorException(JoinPoint joinPoint, Throwable e) {
@@ -41,8 +41,8 @@ public class ServiceMonitor {
         Signature signature = joinPoint.getSignature();
         log.error("[" + signature.toShortString() + "]" + Arrays.toString(args) + "[" + e.toString() + "]");
 
-        // Throw a new service exception
-        throw new ServiceException("Something wrong occurred on service layer of server, please contact administrator", e);
+        // Throw a new server internal error exception
+        throw new ServerInternalErrorException();
     }
 
 }

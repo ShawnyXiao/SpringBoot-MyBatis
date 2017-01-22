@@ -16,12 +16,11 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class Result implements Serializable {
+public class Error implements Serializable {
 
-    private static final long serialVersionUID = -2488668747695124048L;
+    private static final long serialVersionUID = 7660756960387438399L;
 
-    private int status;
-    private String message;
-    private Object data;
+    private int code; // Error code
+    private String message; // Error message
 
 }

@@ -1,6 +1,6 @@
 package com.shawn.util;
 
-import org.apache.commons.lang3.math.NumberUtils;
+import com.shawn.web.exception.ParameterIllegalException;
 
 /**
  * @author Xiaoyue Xiao
@@ -45,24 +45,49 @@ public class PageUtil {
      * Parse page from String to int.
      *
      * @param pageString   origin
-     * @param defaultValue default page, if errors happen or page < 1
+     * @param defaultValue default page, if pageString == null
      * @return parsed page
      */
     public static int parsePage(String pageString, int defaultValue) {
-        int page = NumberUtils.toInt(pageString, defaultValue);
-        return page < 1 ? defaultValue : page;
+        return parseParameter(pageString, defaultValue);
     }
 
     /**
      * Parse size of per page from String to int.
      *
      * @param perPageString origin
-     * @param defaultValue  default size of per page, if errors happen or size < 1
+     * @param defaultValue  default size of per page, if perPageString == null
      * @return parsed size of per page
      */
     public static int parsePerPage(String perPageString, int defaultValue) {
-        int perPage = NumberUtils.toInt(perPageString, defaultValue);
-        return perPage < 1 ? defaultValue : perPage;
+        return parsePage(perPageString, defaultValue);
+    }
+
+    /**
+     * A helper method, parsing parameter about pagination.
+     * If the string is null, return the default value.
+     * If the string is not a number or the number < 1,
+     * throw a parameter illegal exception.
+     *
+     * @param parameterString origin
+     * @param defaultValue default value, if parameterString == null
+     * @return parsed parameter
+     */
+    private static int parseParameter(String parameterString, int defaultValue) {
+        if (parameterString == null) {
+            return defaultValue;
+        }
+
+        int parameter;
+        try {
+            parameter = Integer.parseInt(parameterString);
+        } catch (Exception e) {
+            throw new ParameterIllegalException();
+        }
+        if (parameter < 1) {
+            throw new ParameterIllegalException();
+        }
+        return parameter;
     }
 
 }
