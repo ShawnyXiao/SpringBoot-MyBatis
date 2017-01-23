@@ -45,17 +45,13 @@ http://localhost:8080/books/1
 
 ```json
 {
-  "status": 200,
-  "message": null,
-  "data": {
-    "id": 1,
-    "name": "社会研究方法教程",
-    "author": "袁方",
-    "price": 68,
-    "topic": "社会学",
-    "publishDate": 1425139200000,
-    "bookStoreId": 1
-  }
+  "id": 1,
+  "name": "社会研究方法教程",
+  "author": "袁方",
+  "price": 68,
+  "topic": "社会学",
+  "publishDate": 1425139200000,
+  "bookStoreId": 1
 }
 ```
 
@@ -233,9 +229,17 @@ public class BookStore {
 @CommonsLog
 public class XxxClass {
     public void XxxMethod() {
-        log.info("I just want to log something.");
+        log.info("This is an info log.");
+        log.error("This is an error log.");
     }
 }
+```
+
+这段代码会产生怎样的效果呢？效果如下：
+
+```
+2017-01-01 13:35:52.698  INFO 13184 --- [nio-8080-exec-1] com.shawn.xxx.XxxClass                   : This is an info log.
+2017-01-01 13:35:52.738 ERROR 13184 --- [nio-8080-exec-1] com.shawn.xxx.XxxClass                   : This is an error log.
 ```
 
 本项目对日志记录的有效配置全部位于 src/main/resources/application.properties 下，包括日志级别的配置、输出到日志文件的配置等等，如下：
