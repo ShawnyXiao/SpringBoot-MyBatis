@@ -15,7 +15,8 @@
     3. [Lombok](#lombok)
     4. [日志记录](#日志记录)
     5. [性能监控](#性能监控)
-    6. [未完待续……](#未完待续……)
+    6. [集成 OAuth 2.0](#集成-oauth-20)
+    7. [未完待续……](#未完待续……)
 4. [引用](#引用)
 
 ## 启动
@@ -106,16 +107,16 @@ http://localhost:8080/books/1
 		`-- ...(& so on)
 ```
 
-- src/main/java/com/shawn/constant: 该目录放置了各种常量类
-- src/main/java/com/shawn/model: 该目录放置了各种模型类，其子目录 dto 放置了 DTO（Data Trasfer Object）类，其另一子目录 entity 放置了实体类
-- src/main/java/com/shawn/monitor: 该目录放置了各种监测类
-- src/main/java/com/shawn/repository: 该目录放置了数据库增删改查的接口，其子目录 impl 放置了这些接口的实现类
-- src/main/java/com/shawn/service: 该目录下放置服务（一个服务对应于一些业务逻辑的集合）的接口，其子目录 impl 放置了这些接口的实现类
-- src/main/java/com/shawn/security: 该目录放置了 Spring Security OAuth 的相关配置
-- src/main/java/com/shawn/util: 该目录放置了各种工具类
-- src/main/java/com/shawn/web: 该目录放置了和网络层相关的一切，包括控制器、异常处理、过滤器等等
-- src/main/resources/com/shawn/repository/mybatis: 该目录放置了 MyBatis 的映射器 XML 文件
-- src/main/resources/db: 该目录放置了有关内存数据库的脚本，其子目录 hsqldb 放置了 HSQL 的数据库脚本
+- ```src/main/java/com/shawn/constant```: 该目录放置了各种常量类
+- ```src/main/java/com/shawn/model```: 该目录放置了各种模型类，其子目录 dto 放置了 DTO（Data Trasfer Object）类，其另一子目录 entity 放置了实体类
+- ```src/main/java/com/shawn/monitor```: 该目录放置了各种监测类
+- ```src/main/java/com/shawn/repository```: 该目录放置了数据库增删改查的接口，其子目录 impl 放置了这些接口的实现类
+- ```src/main/java/com/shawn/service```: 该目录下放置服务（一个服务对应于一些业务逻辑的集合）的接口，其子目录 impl 放置了这些接口的实现类
+- ```src/main/java/com/shawn/security```: 该目录放置了 Spring Security OAuth 的相关配置
+- ```src/main/java/com/shawn/util```: 该目录放置了各种工具类
+- ```src/main/java/com/shawn/web```: 该目录放置了和网络层相关的一切，包括控制器、异常处理、过滤器等等
+- ```src/main/resources/com/shawn/repository/mybatis```: 该目录放置了 MyBatis 的映射器 XML 文件
+- ```src/main/resources/db```: 该目录放置了有关内存数据库的脚本，其子目录 hsqldb 放置了 HSQL 的数据库脚本
 
 ### 架构
 
@@ -211,23 +212,23 @@ public class BookStore {
 
 在本项目中使用的 Lombok 注解有：
 
-- @Accessors
-- @NoArgsConstructor
-- @Getter
-- @Setter
-- @ToString
-- @CommonsLog
+- ```@Accessors```
+- ```@NoArgsConstructor```
+- ```@Getter```
+- ```@Setter```
+- ```@ToString```
+- ```@CommonsLog```
 
 ### 日志记录
 
-曾经，我一直使用控制台输出（也就是 System.out.println）来让我的程序告诉我它在编译期和运行期做了些什么。这样的确是简单，但是往往伴随着显著的劣势。举两个例子：
+曾经，我一直使用控制台输出（也就是 ```System.out.println```）来让我的程序告诉我它在编译期和运行期做了些什么。这样的确是简单，但是往往伴随着显著的劣势。举两个例子：
 
 - 在开发环境中，我想看到调试的信息，但在生产环境中，我并不想看到任何调试信息
 - 我想将所有信息输出到一个文件，以便我有空了就打开这个文件，看下哪里出错了
 
 上面的两个例子足以显示使用控制台输出是无法满足我们的需求的，那么怎样做才是最佳实践呢？答案就是**使用日志框架**。日志框架为我们提供了日志开关、日志级别配置、日志格式配置等等，带来了适度的灵活性和封装性。引用前面说过的一句话：只需要“掌控”他们，再“利用”他们，你就能实现你想要的。
 
-本项目使用了 Spring Boot 默认提供的 **Commons Logging**。对于一切想要记录日志的类，只需要在它的头上使用 Lombok 提供的注解 @CommonsLog，便能使用日志记录功能了。举个例子：
+本项目使用了 Spring Boot 默认提供的 **Commons Logging**。对于一切想要记录日志的类，只需要在它的头上使用 Lombok 提供的注解 ```@CommonsLog```，便能使用日志记录功能了。举个例子：
 
 ```java
 @CommonsLog
@@ -246,7 +247,7 @@ public class XxxClass {
 2017-01-01 13:35:52.738 ERROR 13184 --- [nio-8080-exec-1] com.shawn.xxx.XxxClass                   : This is an error log.
 ```
 
-本项目对日志记录的有效配置全部位于 src/main/resources/application.properties 下，包括日志级别的配置、输出到日志文件的配置等等，如下：
+本项目对日志记录的有效配置全部位于 ```src/main/resources/application.properties``` 下，包括日志级别的配置、输出到日志文件的配置等等，如下：
 
 ```
 ...
@@ -276,7 +277,7 @@ logging.file=/${project.name}/logs/SpringBoot-Mybatis.log
 
 那么，我们到底应该监控什么呢，或者说性能到底是什么呢？对于 Web 应用来说，性能就是 Web 系统采取某个动作（动作也就是 Web 系统对每个请求所执行的操作的集合）所消耗的时间。了解到我们应该监控 Web 系统的每个动作，那么更进一步，怎么才能监控每个动作呢？本项目采用的是 **Spring AOP** 技术。三个步骤如下：
 
-- 使用 @Aspect 注解声明一个切面（Aspect）。如下：
+- 使用 ```@Aspect``` 注解声明一个切面（Aspect）。如下：
 
 ```java
 @Aspect
@@ -352,7 +353,7 @@ public class PerformanceMonitor {
 }
 ```
 
-因此，系统每执行一个动作（也就是，每响应一个请求所执行的操作），在日志上都会记录下它所消耗的时间，若超过1秒，则会以 error 级别记录日志。如下：
+因此，系统每执行一个动作（也就是，每响应一个请求所执行的操作），在日志上都会记录下它所消耗的时间，若超过1秒，则会以 ```error``` 级别记录日志。如下：
 
 ```
 2017-01-03 22:58:19.431 ERROR 6384 --- [nio-8080-exec-9] com.shawn.monitor.PerformanceMonitor     : [BookController.postBook(..)][Elapsed time: 1.457 s][Note that it's time consuming!]
@@ -369,24 +370,106 @@ public class PerformanceMonitor {
 
 ![协议的流程](pic/protocol_flow.png)
 
-OAuth 2.0 有4种授权方式，分别是：授权码模式（Authorization code），简化模式（Implicit），密码模式（Resource owner password credentials）和客户端模式（Client credentials），本项目只采用密码模式。因此，基于上述流程以及密码授权模式，本项目做出了相应的定制，如下图：
+OAuth 2.0 有4种授权方式，分别是：授权码模式（authorization code），简化模式（implicit），密码模式（resource owner password credentials）和客户端模式（client credentials），本项目只采用密码模式。因此，基于上述流程以及密码授权模式，本项目做出了相应的定制，如下图：
 
 ![定制的流程](pic/custom_flow.png)
 
 既然清楚了运行流程，那么接下来要进行的是对 Spring Security OAuth 的配置，涉及到这些的类有：
 
-- com.shawn.model.dto.CustionUserDetails: 该类是一个模型类，实现了 UserDetails 接口。它主要负责传送用户的认证信息，包括：username, password, authorities 等等
-- com.shawn.security.AuthorizationServerConfiguration: 该类是一个配置类，继承了 AuthorizationServerConfigurerAdapter。它主要负责授权服务器的配置，包括：信任的客户端信息的管理、请求令牌的 URL 的配置、 令牌的管理、如何认证用户的配置、对于请求令牌的 URL 的安全约束的配置等等
-- com.shawn.security.ResourceServerConfiguration: 该类是一个配置类，继承了 ResourceServerConfigurerAdapter。他主要负责资源服务器的配置，包括：对于请求资源的 URL 的安全约束的配置等等
-- com.shawn.security.WebSecurityConfiguration: 该类是一个配置类，继承了 GlobalAuthenticationConfigurerAdapter。它主要负责有关认证的配置，包括：用户的认证信息的获取等等
-- com.shawn.service.UserService: 该类是一个服务类的接口，继承了 UserDetailsService 接口。
-- com.shawn.service.impl.UserServiceImpl: 该类是 UserService 接口的实现类。
+- ```com.shawn.model.dto.CustionUserDetails```: 该类是一个模型类，实现了 ```UserDetails``` 接口。它主要负责传送用户的认证信息，包括：用户名, 密码, 该用户所拥有的权限等等
+- ```com.shawn.security.AuthorizationServerConfiguration```: 该类是一个配置类，继承了 ```AuthorizationServerConfigurerAdapter```。它主要负责授权服务器的配置，包括：信任的客户端信息的管理、请求令牌的 URL 的配置、 令牌的管理、如何认证用户的配置、对于请求令牌的 URL 的安全约束的配置等等
+- ```com.shawn.security.ResourceServerConfiguration```: 该类是一个配置类，继承了 ```ResourceServerConfigurerAdapter```。他主要负责资源服务器的配置，包括：对于请求资源的 URL 的安全约束的配置等等
+- ```com.shawn.security.WebSecurityConfiguration```: 该类是一个配置类，继承了 ```GlobalAuthenticationConfigurerAdapter```。它主要负责有关认证的配置，包括：用户的认证信息的获取等等
+- ```com.shawn.service.UserService```: 该类是一个服务类的接口，继承了 ```UserDetailsService``` 接口。
+- ```com.shawn.service.impl.UserServiceImpl```: 该类是 ```UserService``` 接口的实现类。
 
 有了这些配置，我们实现的效果是：
 
 - 获取 book 资源（查）的请求一律不需要认证
 - 对 book 资源进行修改的请求（增删改）需要认证
 - 对 user 资源的所有请求（增删改查）都需要认证
+
+#### 使用途径
+
+首先，我们尝试访问不需要认证的资源：
+
+```
+curl http://localhost:8080/books/1
+```
+
+正如我们所期待的，服务器返回了 ID 为 1 的 book 资源给客户端，如下：
+
+```
+{
+  "id": 1,
+  "name": "社会研究方法教程",
+  "author": "袁方",
+  "price": 68.0,
+  "topic": "社会学",
+  "publishDate": 1425139200000,
+  "bookStoreId": 1
+}
+```
+
+接下来，我们尝试不带认证信息的访问需要认证的资源（尝试删除 ID 为 1 的 book）：
+
+```
+curl http://localhost:8080/books/1 -X DELETE
+```
+
+我们收到如下的 JSON 字符串响应，告诉我们需要认证了才能访问这个资源：
+
+```
+{
+  "error": "unauthorized",
+  "error_description": "Full authentication is required to access this resource"
+}
+```
+
+为了访问受保护的资源，我们需要先向授权服务器请求访问令牌（access token）：
+
+```
+curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_type=password&username=shawn&password=fucksecurity"
+```
+
+授权服务器验证了我们的客户端和用户信息，验证成功后将我们需要的令牌（token）信息作为响应传回：
+
+```
+{
+  "access_token": "ca741611-a30e-4504-b84e-fdf9cec0da9a",
+  "token_type": "bearer",
+  "refresh_token": "1a1fb46e-8ab4-4a3b-84c4-e70892eaa570",
+  "expires_in": 43199,
+  "scope": "read write"
+}
+```
+
+接下来，我们可以使用上个请求返回的 ```access_token```，操作受保护的资源：
+
+```
+curl http://localhost:8080/books/1 -X DELETE -H "Authorization: Bearer ca741611-a30e-4504-b84e-fdf9cec0da9a"
+```
+
+相应成功返回，为了验证 ID 为 1 的 book 确实被删除，我们尝试获取 ID 为 1 的 book 信息：
+
+```
+curl http://localhost:8080/books/1
+```
+
+响应的 HTTP 状态码为 404，并传回了以下 JSON 字符串，这说明 ID 为 1 的 book 确实已经被删除：
+
+```
+{
+  "code": 1003,
+  "message": "Book with id 1 is not found."
+}
+```
+
+最后，随着时间（在本项目中是 43199 秒）的消逝，```access_token``` 会过期。可以使用曾经请求访问令牌时返回的 ```refresh_token``` 来获取一个新的 ```access_token```：
+
+```
+curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_type=refresh_token&refresh_token=1a1fb46e-8ab4-4a3b-84c4-e70892eaa570"
+```
 
 ### 未完待续……
 
@@ -437,3 +520,14 @@ OAuth 2.0 有4种授权方式，分别是：授权码模式（Authorization code
 - [AOP with Spring Framework](https://www.tutorialspoint.com/spring/aop_with_spring.htm)
 - [StopWatch (Apache Commons Lang 3.4 API)](https://commons.apache.org/proper/commons-lang/javadocs/api-3.4/org/apache/commons/lang3/time/StopWatch.html)
 - [Java 日志管理最佳实践](http://www.ibm.com/developerworks/cn/java/j-lo-practicelog/)
+- [rest - RESTful Authentication - Stack Overflow](http://stackoverflow.com/questions/319530/restful-authentication)
+- [理解OAuth 2.0 - 阮一峰的网络日志](http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html)
+- [RESTful authentication using Spring Security on Spring Boot, and jQuery as a web client &#8211; Codes And Notes](http://www.codesandnotes.be/2014/10/31/restful-authentication-using-spring-security-on-spring-boot-and-jquery-as-a-web-client/)
+- [Secure Spring REST API using OAuth2 - WebSystique](http://websystique.com/spring-security/secure-spring-rest-api-using-oauth2/)
+- [royclarkson/spring-rest-service-oauth: A simple OAuth protected REST service built with Spring Boot and Spring Security OAuth](https://github.com/royclarkson/spring-rest-service-oauth)
+- [Introduction | Spring Security 参考手册](https://vincentmi.gitbooks.io/spring-security-reference-zh/content/index.html)
+- [Tutorial · Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
+- [了解OAuth2.0](https://developers.douban.com/wiki/?title=oauth2)
+- [Spring Security：结合 Spring-OAuth，支持 Mysql 数据库（基于SpringBoot） · Issue #59 · pzxwhc/MineKnowContainer](https://github.com/pzxwhc/MineKnowContainer/issues/59)
+- [Spring Security OAuth](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
+- [spring-security-oauth/tests/annotation/multi at master · spring-projects/spring-security-oauth](https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation/multi)
