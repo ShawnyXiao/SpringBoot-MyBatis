@@ -59,12 +59,14 @@ http://localhost:8080/books/1
 
 - Spring Boot
 - MyBatis
+- Spring Security OAuth
 - MySQL or HSQLDB (a in-memory database)
 - Maven
 - Commons Logging
 - Java 8 Lambda Expressions
 - Lombok
 - Apache Commons Lang
+- Apache Commons Collection4
 
 ## 细节
 
@@ -87,6 +89,7 @@ http://localhost:8080/books/1
 	|	|			|	`-- mybatis
 	|	|			|-- service
 	|	|			|	`-- impl
+    |   |           |-- security
 	|	|			|-- util
 	|	|			`-- web
 	|	|				|-- controller
@@ -108,6 +111,7 @@ http://localhost:8080/books/1
 - src/main/java/com/shawn/monitor: 该目录放置了各种监测类
 - src/main/java/com/shawn/repository: 该目录放置了数据库增删改查的接口，其子目录 impl 放置了这些接口的实现类
 - src/main/java/com/shawn/service: 该目录下放置服务（一个服务对应于一些业务逻辑的集合）的接口，其子目录 impl 放置了这些接口的实现类
+- src/main/java/com/shawn/security: 该目录放置了 Spring Security OAuth 的相关配置
 - src/main/java/com/shawn/util: 该目录放置了各种工具类
 - src/main/java/com/shawn/web: 该目录放置了和网络层相关的一切，包括控制器、异常处理、过滤器等等
 - src/main/resources/com/shawn/repository/mybatis: 该目录放置了 MyBatis 的映射器 XML 文件
@@ -356,6 +360,33 @@ public class PerformanceMonitor {
 2017-01-03 22:59:16.356  INFO 6384 --- [nio-8080-exec-1] com.shawn.monitor.PerformanceMonitor     : [BookController.putBook(..)][Elapsed time: 0.618 s]
 2017-01-03 22:59:51.259  INFO 6384 --- [nio-8080-exec-3] com.shawn.monitor.PerformanceMonitor     : [BookController.deleteBook(..)][Elapsed time: 0.016 s]
 ```
+
+### 集成 OAuth 2.0
+
+为了使服务器的资源受到保护，也就是只让信任的客户端访问受保护的资源，本项目选择 Spring Security OAuth 来集成 OAuth 2.0 来保护我们服务器的资源。
+
+只有了解了 OAuth 2.0 的运行流程，我们才能正确的使用它。所以，首先，我们先来了解一下 OAuth 2.0 的运行流程。它的运行流程如下图，摘自 [RFC 6749](http://www.rfcreader.com/#rfc6749)。
+
+![协议的流程](pic/protocol_flow.png)
+
+OAuth 2.0 有4种授权方式，分别是：授权码模式（Authorization code），简化模式（Implicit），密码模式（Resource owner password credentials）和客户端模式（Client credentials），本项目只采用密码模式。因此，基于上述流程以及密码授权模式，本项目做出了相应的定制，如下图：
+
+![定制的流程](pic/custom_flow.png)
+
+既然清楚了运行流程，那么接下来要进行的是对 Spring Security OAuth 的配置，涉及到这些的类有：
+
+- com.shawn.model.dto.CustionUserDetails: 该类是一个模型类，实现了 UserDetails 接口。它主要负责传送用户的认证信息，包括：username, password, authorities 等等
+- com.shawn.security.AuthorizationServerConfiguration: 该类是一个配置类，继承了 AuthorizationServerConfigurerAdapter。它主要负责授权服务器的配置，包括：信任的客户端信息的管理、请求令牌的 URL 的配置、 令牌的管理、如何认证用户的配置、对于请求令牌的 URL 的安全约束的配置等等
+- com.shawn.security.ResourceServerConfiguration: 该类是一个配置类，继承了 ResourceServerConfigurerAdapter。他主要负责资源服务器的配置，包括：对于请求资源的 URL 的安全约束的配置等等
+- com.shawn.security.WebSecurityConfiguration: 该类是一个配置类，继承了 GlobalAuthenticationConfigurerAdapter。它主要负责有关认证的配置，包括：用户的认证信息的获取等等
+- com.shawn.service.UserService: 该类是一个服务类的接口，继承了 UserDetailsService 接口。
+- com.shawn.service.impl.UserServiceImpl: 该类是 UserService 接口的实现类。
+
+有了这些配置，我们实现的效果是：
+
+- 获取 book 资源（查）的请求一律不需要认证
+- 对 book 资源进行修改的请求（增删改）需要认证
+- 对 user 资源的所有请求（增删改查）都需要认证
 
 ### 未完待续……
 
