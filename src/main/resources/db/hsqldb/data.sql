@@ -12,4 +12,6 @@ INSERT INTO book VALUES ('9', '1', '编程珠玑', 'Jon', '36.00', '数据结构
 INSERT INTO book VALUES ('10', '1', 'SQL必知必会', 'Ben', '13.00', '数据库', '2015-08-26');
 INSERT INTO book VALUES ('11', '1', '编译器设计', 'Kelth', '59.00', '编译器', '2014-08-13');
 
+INSERT INTO user VALUES ('1', 'shawn', 'fucksecurity');
+
 commit;

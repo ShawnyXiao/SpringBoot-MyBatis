@@ -104,7 +104,7 @@
 
     <select id="selectCount" resultType="integer">
         SELECT
-            COUNT(*)
+          COUNT(*)
         FROM
           book
     </select>

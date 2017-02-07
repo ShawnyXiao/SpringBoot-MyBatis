@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 /**
  * @author Xiaoyue Xiao
  */
-@Service("BookStoreService")
+@Service
 public class BookStoreServiceImpl implements BookStoreService {
 
-    private BookStoreRepository bookStoreRepository;
+    private final BookStoreRepository bookStoreRepository;
 
     @Autowired
     public BookStoreServiceImpl(BookStoreRepository bookStoreRepository) {
