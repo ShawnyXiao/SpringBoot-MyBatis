@@ -16,7 +16,8 @@
     4. [日志记录](#日志记录)
     5. [性能监控](#性能监控)
     6. [集成 OAuth 2.0](#集成-oauth-20)
-    7. [未完待续……](#未完待续)
+    7. [使用 Lambda 表达式](#使用-lambda-表达式)
+    8. [未完待续……](#未完待续)
 4. [引用](#引用)
 
 ## 启动
@@ -90,7 +91,7 @@ http://localhost:8080/books/1
 	|	|			|	`-- mybatis
 	|	|			|-- service
 	|	|			|	`-- impl
-    |   |           |-- security
+	|	|			|-- security
 	|	|			|-- util
 	|	|			`-- web
 	|	|				|-- controller
@@ -376,12 +377,12 @@ OAuth 2.0 有4种授权方式，分别是：授权码模式（authorization code
 
 既然清楚了运行流程，那么接下来要进行的是对 Spring Security OAuth 的配置，涉及到这些的类有：
 
-- ```com.shawn.model.dto.CustionUserDetails```: 该类是一个模型类，实现了 ```UserDetails``` 接口。它主要负责传送用户的认证信息，包括：用户名, 密码, 该用户所拥有的权限等等
+- ```com.shawn.model.dto.CustomUserDetails```: 该类是一个模型类，实现了 ```UserDetails``` 接口。它主要负责传送用户的认证信息，包括：用户名, 密码, 该用户所拥有的权限等等
 - ```com.shawn.security.AuthorizationServerConfiguration```: 该类是一个配置类，继承了 ```AuthorizationServerConfigurerAdapter```。它主要负责授权服务器的配置，包括：信任的客户端信息的管理、请求令牌的 URL 的配置、 令牌的管理、如何认证用户的配置、对于请求令牌的 URL 的安全约束的配置等等
 - ```com.shawn.security.ResourceServerConfiguration```: 该类是一个配置类，继承了 ```ResourceServerConfigurerAdapter```。他主要负责资源服务器的配置，包括：对于请求资源的 URL 的安全约束的配置等等
 - ```com.shawn.security.WebSecurityConfiguration```: 该类是一个配置类，继承了 ```GlobalAuthenticationConfigurerAdapter```。它主要负责有关认证的配置，包括：用户的认证信息的获取等等
-- ```com.shawn.service.UserService```: 该类是一个服务类的接口，继承了 ```UserDetailsService``` 接口。
-- ```com.shawn.service.impl.UserServiceImpl```: 该类是 ```UserService``` 接口的实现类。
+- ```com.shawn.service.UserService```: 该类是一个服务类的接口，继承了 ```UserDetailsService``` 接口
+- ```com.shawn.service.impl.UserServiceImpl```: 该类是 ```UserService``` 接口的实现类
 
 有了这些配置，我们实现的效果是：
 
@@ -399,7 +400,7 @@ curl http://localhost:8080/books/1
 
 正如我们所期待的，服务器返回了 ID 为 1 的 book 资源给客户端，如下：
 
-```
+```json
 {
   "id": 1,
   "name": "社会研究方法教程",
@@ -419,7 +420,7 @@ curl http://localhost:8080/books/1 -X DELETE
 
 我们收到如下的 JSON 字符串响应，告诉我们需要认证了才能访问这个资源：
 
-```
+```json
 {
   "error": "unauthorized",
   "error_description": "Full authentication is required to access this resource"
@@ -434,7 +435,7 @@ curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_
 
 授权服务器验证了我们的客户端和用户信息，验证成功后将我们需要的令牌（token）信息作为响应传回：
 
-```
+```json
 {
   "access_token": "ca741611-a30e-4504-b84e-fdf9cec0da9a",
   "token_type": "bearer",
@@ -458,7 +459,7 @@ curl http://localhost:8080/books/1
 
 响应的 HTTP 状态码为 404，并传回了以下 JSON 字符串，这说明 ID 为 1 的 book 确实已经被删除：
 
-```
+```json
 {
   "code": 1003,
   "message": "Book with id 1 is not found."
@@ -469,6 +470,121 @@ curl http://localhost:8080/books/1
 
 ```
 curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_type=refresh_token&refresh_token=1a1fb46e-8ab4-4a3b-84c4-e70892eaa570"
+```
+
+### 使用 Lambda 表达式
+
+为了使代码可读性更强、更简洁，本项目大量的使用了 **Lambda 表达式**。为了体现 Lambda 表达式的优势，我们来看一下对比：
+
+不使用 Lambda 表达式：
+
+```java
+Runnable r = new Runnable() {
+    @Override
+    public void run(){
+      System.out.println("I just want to tell you why to use lambda expressions.");
+    }
+};
+```
+
+使用 Lambda 表达式：
+
+```java
+Runnable r = () -> System.out.println("I just want to tell you why to use lambda expressions.");
+```
+
+所以接下来，我们一起来了解一下 Lambda 表达式语法和适用场景。
+
+#### Lambda 表达式的语法
+
+一个 Lambda 表达式包含以下几个组成部分：
+
+1.  **一个逗号分隔，小括号包围的形参集合**。你可以忽略参数的数据类型；如果只有一个参数，你还可以忽略小括号。  
+	合法的例子：
+	```
+	(int a, int b)
+	(a, b)
+	(int a)
+	a
+	()
+	```
+	不合法的例子：
+	```
+	(String a, b)
+	(a, String b)
+	int a
+	```
+
+2.  **一个箭头符号**。  
+	**唯一**合法的例子：
+	```
+	->
+	```
+	不合法的例子：
+	```
+	- >
+	-->
+	-<
+	<-
+	```
+
+3.  **一个主体**。要么是一个表达式，要么是一个由大括号包围语句块。如果 Lambda 表达式实现的是一个 void 方法，而且只有一条语句，那么可以忽略大括号。  
+	合法的例子：
+	```
+	a == b
+	{return a == b;}
+	{result = (a == b); return result;}
+	System.out.println("Hello, world!")
+	```
+	不合法的例子：
+	```
+	a == b;
+	{return a == b}
+	```
+
+现在讲上面3个部分组合起来，实现**完整的 Lambda 表达式**。例如：
+
+```java
+(a, b) -> a == b
+(int a, int b) -> {result = (a == b); return result;}
+a -> {System.out.println(a);}
+() -> System.out.println("Hello, world!")
+```
+
+#### 哪类情况适合使用 Lambda 表达式
+
+1. 	如果你想对某些变量做一些处理，而你又想降这些处理封装起来，那么你应该使用 Lambda 表达式。举个例子：当你想对一个集合的每一个元素做过滤处理的时候，你就应该使用 Lambda 表达式了。（下面的例子涉及一些 Stream API，这里只需要关注 ```filter()``` 方法）
+	```
+	double average = cars.stream()
+						 .filter(c -> c.isBMW() && c.isRed)
+						 .mapToDoule(c -> c.getSpeed())
+						 .averge()
+						 .getAsDouble();
+	```
+
+2. 	如果你只想要一个简单的**函数式接口**的实例（只想要实现函数式接口中的唯一的抽象方法），那么你应该使用 Lambda 表达式。举个例子：
+	```
+	button.setOnAction(
+		event -> System.out.println("Hello World!")
+	);
+	```
+
+在本项目中，第一类情况大量的出现。例如，```com.shawn.web.controller.BookController``` 中的一段代码：
+
+```java
+...
+
+@GetMapping("/{bookId}")
+public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
+    return bookService
+            .getBookById(bookId)
+            .map(ResponseEntity::ok)
+            .orElseThrow(() -> new ResourceNotFoundException()
+                    .setResourceName(ResourceNameConstant.BOOK)
+                    .setId(bookId));
+}
+
+...
 ```
 
 ### 未完待续……
@@ -531,3 +647,5 @@ curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_
 - [Spring Security：结合 Spring-OAuth，支持 Mysql 数据库（基于SpringBoot） · Issue #59 · pzxwhc/MineKnowContainer](https://github.com/pzxwhc/MineKnowContainer/issues/59)
 - [Spring Security OAuth](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
 - [spring-security-oauth/tests/annotation/multi at master · spring-projects/spring-security-oauth](https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation/multi)
+- [Lambda Expressions (The Java&trade; Tutorials &gt; Learning the Java Language &gt; Classes and Objects)](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)
+- [Java SE 8: Lambda Quick Start](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html)
