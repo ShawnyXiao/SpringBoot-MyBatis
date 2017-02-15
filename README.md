@@ -15,8 +15,8 @@
     3. [Lombok](#lombok)
     4. [日志记录](#日志记录)
     5. [性能监控](#性能监控)
-    6. [集成 OAuth 2.0](#oauth-20)
-    7. [使用 Lambda 表达式](#lambda-表达式)
+    6. [OAuth 2.0](#oauth-20)
+    7. [Lambda 表达式](#lambda-表达式)
     8. [未完待续……](#未完待续)
 4. [引用](#引用)
 
@@ -649,3 +649,4 @@ public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
 - [spring-security-oauth/tests/annotation/multi at master · spring-projects/spring-security-oauth](https://github.com/spring-projects/spring-security-oauth/tree/master/tests/annotation/multi)
 - [Lambda Expressions (The Java&trade; Tutorials &gt; Learning the Java Language &gt; Classes and Objects)](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)
 - [Java SE 8: Lambda Quick Start](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html)
+- [如何选择开源许可证？ - 阮一峰的网络日志](http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
