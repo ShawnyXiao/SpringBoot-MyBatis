@@ -15,8 +15,8 @@
     3. [Lombok](#lombok)
     4. [日志记录](#日志记录)
     5. [性能监控](#性能监控)
-    6. [集成 OAuth 2.0](#集成-oauth-20)
-    7. [使用 Lambda 表达式](#使用-lambda-表达式)
+    6. [集成 OAuth 2.0](#oauth-20)
+    7. [使用 Lambda 表达式](#lambda-表达式)
     8. [未完待续……](#未完待续)
 4. [引用](#引用)
 
@@ -363,7 +363,7 @@ public class PerformanceMonitor {
 2017-01-03 22:59:51.259  INFO 6384 --- [nio-8080-exec-3] com.shawn.monitor.PerformanceMonitor     : [BookController.deleteBook(..)][Elapsed time: 0.016 s]
 ```
 
-### 集成 OAuth 2.0
+### OAuth 2.0
 
 为了使服务器的资源受到保护，也就是只让信任的客户端访问受保护的资源，本项目选择 Spring Security OAuth 来集成 OAuth 2.0 来保护我们服务器的资源。
 
@@ -472,7 +472,7 @@ curl http://localhost:8080/books/1
 curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_type=refresh_token&refresh_token=1a1fb46e-8ab4-4a3b-84c4-e70892eaa570"
 ```
 
-### 使用 Lambda 表达式
+### Lambda 表达式
 
 为了使代码可读性更强、更简洁，本项目大量的使用了 **Lambda 表达式**。为了体现 Lambda 表达式的优势，我们来看一下对比：
 
