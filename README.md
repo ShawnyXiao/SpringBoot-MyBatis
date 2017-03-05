@@ -451,7 +451,7 @@ curl http://localhost:8080/oauth/token -X POST -u client:fucksecurity -d "grant_
 curl http://localhost:8080/books/1 -X DELETE -H "Authorization: Bearer ca741611-a30e-4504-b84e-fdf9cec0da9a"
 ```
 
-相应成功返回，为了验证 ID 为 1 的 book 确实被删除，我们尝试获取 ID 为 1 的 book 信息：
+响应成功返回，为了验证 ID 为 1 的 book 确实被删除，我们尝试获取 ID 为 1 的 book 信息：
 
 ```
 curl http://localhost:8080/books/1
