@@ -30,6 +30,7 @@
         <mysql-connector-java.version>5.1.40</mysql-connector-java.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-collections4.version>4.1</commons-collections4.version>
+        <springfox.version>2.2.2</springfox.version>
     </properties>
 
     <dependencies>
@@ -68,7 +69,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
         </dependency>
 
         <!-- Databases - Uses HSQL by default -->
@@ -96,6 +96,19 @@
             <artifactId>commons-collections4</artifactId>
             <version>${commons-collections4.version}</version>
         </dependency>
+        
+        
+		<!--         springfox-swagger2 -->
+        <dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
 
     </dependencies>
 
