@@ -7,11 +7,14 @@ import com.shawn.model.entity.Book;
 import com.shawn.service.BookService;
 import com.shawn.util.PageUtil;
 import com.shawn.web.exception.ResourceNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import io.swagger.annotations.ApiOperation;
 
 import java.net.URI;
 
@@ -30,6 +33,7 @@ public class BookController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get Book addresses - USR01", response = Book.class)
     public ResponseEntity<?> getBooks(@RequestParam(value = "page", required = false) String pageString,
                                       @RequestParam(value = "per_page", required = false) String perPageString) {
         // Parse request parameters
@@ -44,6 +48,7 @@ public class BookController {
     }
 
     @GetMapping("/{bookId}")
+    @ApiOperation(value = "Get Book addresses - USR02", response = Book.class)
     public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
         return bookService
                 .getBookById(bookId)
@@ -54,6 +59,7 @@ public class BookController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Post Book addresses - USR01", response = Book.class)
     public ResponseEntity<?> postBook(@RequestBody Book book) {
         bookService.saveBook(book);
 
@@ -70,6 +76,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
+    @ApiOperation(value = "Put Book addresses - USR01", response = Book.class)
     public ResponseEntity<?> putBook(@PathVariable Long bookId, @RequestBody Book book) {
         assertBookExist(bookId);
 
@@ -81,6 +88,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{bookId}")
+    @ApiOperation(value = "Delet Book addresses - USR01")
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
         assertBookExist(bookId);
 
