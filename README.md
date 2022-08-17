@@ -650,3 +650,4 @@ public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
 - [Lambda Expressions (The Java&trade; Tutorials &gt; Learning the Java Language &gt; Classes and Objects)](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)
 - [Java SE 8: Lambda Quick Start](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html)
 - [如何选择开源许可证？ - 阮一峰的网络日志](http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
+- [Create Database in MySQL](https://www.scaler.com/topics/sql/create-database-in-mysql/)
