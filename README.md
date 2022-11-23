@@ -636,6 +636,7 @@ public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
 - [AOP with Spring Framework](https://www.tutorialspoint.com/spring/aop_with_spring.htm)
 - [StopWatch (Apache Commons Lang 3.4 API)](https://commons.apache.org/proper/commons-lang/javadocs/api-3.4/org/apache/commons/lang3/time/StopWatch.html)
 - [Java 日志管理最佳实践](http://www.ibm.com/developerworks/cn/java/j-lo-practicelog/)
+- [详细学习 Java 编程 - Scaler 主题](https://www.scaler.com/topics/java/)
 - [rest - RESTful Authentication - Stack Overflow](http://stackoverflow.com/questions/319530/restful-authentication)
 - [理解OAuth 2.0 - 阮一峰的网络日志](http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html)
 - [RESTful authentication using Spring Security on Spring Boot, and jQuery as a web client &#8211; Codes And Notes](http://www.codesandnotes.be/2014/10/31/restful-authentication-using-spring-security-on-spring-boot-and-jquery-as-a-web-client/)
